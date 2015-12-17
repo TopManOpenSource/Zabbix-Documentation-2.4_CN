@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>7 get &mdash; Zabbix_manual_2.4_zh_CN 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Zabbix_manual_2.4_zh_CN 0.1 documentation" href="../index.html" />
+    <link rel="up" title="2.Zabbix基本概念和专用术语" href="index.html" />
+    <link rel="next" title="3.安装" href="../installation/index.html" />
+    <link rel="prev" title="6 sender" href="sender.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../installation/index.html" title="3.安装"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="sender.html" title="6 sender"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Zabbix_manual_2.4_zh_CN 0.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">2.Zabbix基本概念和专用术语</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="get">
+<span id="id1"></span><h1>7 get<a class="headerlink" href="#get" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id2">
+<h2>概览<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>Zabbix get 是一个连接Zabbixagent并取回必需数据的一个应用</p>
+<p>这个工具经常用来对Zabbixagent排障</p>
+</div>
+<div class="section" id="zabbix-get">
+<h2>运行Zabbix get<a class="headerlink" href="#zabbix-get" title="Permalink to this headline">¶</a></h2>
+<p>在unix平台上运行Zabbix get来获取另外一个运行在Unix下的Zabbix agent加载的值的列子：:</p>
+<div class="highlight-python"><div class="highlight"><pre>shell&gt; cd bin
+shell&gt; ./zabbix_get -s 127.0.0.1 -p 10050 -k &quot;system.cpu.load[all,avg1]&quot;
+</pre></div>
+</div>
+<dl class="docutils">
+<dt>Zabbix get 接受下列命令行参数 ::</dt>
+<dd>-s &#8211;host &lt;host name or IP&gt;      特定的机器名或者IP地址
+-p &#8211;port &lt;port number&gt;          指定机器上Zabbix agent监听的端口，默认是10050
+-I &#8211;source-address &lt;IP address&gt; 指定的源IP地址
+-k &#8211;key &lt;item key&gt;              指定的需要接收的 item 的Key
+-h &#8211;help                        显示此帮助信息.
+-V &#8211;version                     显示版本号.</dd>
+<dt>Zabbix get 在Windows下使用同样的命令运行: ::</dt>
+<dd>zabbix_get.exe [options]</dd>
+</dl>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">7 get</a><ul>
+<li><a class="reference internal" href="#id2">概览</a></li>
+<li><a class="reference internal" href="#zabbix-get">运行Zabbix get</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="sender.html"
+                        title="previous chapter">6 sender</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../installation/index.html"
+                        title="next chapter">3.安装</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/concepts/get.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../installation/index.html" title="3.安装"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="sender.html" title="6 sender"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Zabbix_manual_2.4_zh_CN 0.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >2.Zabbix基本概念和专用术语</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, RoamerGU.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.3.
+    </div>
+  </body>
+</html>

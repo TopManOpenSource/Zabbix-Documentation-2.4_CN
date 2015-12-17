@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>6 sender &mdash; Zabbix_manual_2.4_zh_CN 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Zabbix_manual_2.4_zh_CN 0.1 documentation" href="../index.html" />
+    <link rel="up" title="2.Zabbix基本概念和专用术语" href="index.html" />
+    <link rel="next" title="7 get" href="get.html" />
+    <link rel="prev" title="5 Java gateway" href="java.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="get.html" title="7 get"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="java.html" title="5 Java gateway"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Zabbix_manual_2.4_zh_CN 0.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">2.Zabbix基本概念和专用术语</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="sender">
+<span id="id1"></span><h1>6 sender<a class="headerlink" href="#sender" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id2">
+<h2>概览<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>Zabbix sender 是一个可能用来向ZabbixServer进程发送性能数据的命令行工具。
+这个工具通常被用来在长时间运行的用户脚本中定期发送可用性和性能数据。</p>
+</div>
+<div class="section" id="zabbixsender">
+<h2>运行ZabbixSender<a class="headerlink" href="#zabbixsender" title="Permalink to this headline">¶</a></h2>
+<p>一个在unix下运行Zabbixsender的例子</p>
+<div class="highlight-python"><div class="highlight"><pre>shell&gt; cd bin
+shell&gt; ./zabbix_sender -z zabbix -s &quot;Linux DB3&quot; -k db.connections -o 43
+</pre></div>
+</div>
+<p>在这里:</p>
+<blockquote>
+<div><ul class="simple">
+<li>z - ZabbixServerhost，（推荐使用IP地址）</li>
+<li>s - 被监视的主机（跟在ZabbixServer前端中注册的相同）</li>
+<li>k - item key</li>
+<li>o - 发送的数值</li>
+</ul>
+</div></blockquote>
+<p>参阅 <span class="xref std std-ref">Zabbix sender manpage</span> 获取更多信息</p>
+<p>Zabbix sender 接受UTF-8编码的字符串（Unix、类unix和windows上均是如此。）</p>
+<p>同样地，在Windows上使用如下命令:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">zabbix_sender</span><span class="o">.</span><span class="n">exe</span> <span class="p">[</span><span class="n">options</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>自Zabbix 1.8.4版本以来，Zabbix_sender 实时发送方案改进为持续收集多个连续传递给它的值并通过一个单独的链接把他们发送到Server。
+两个值产生的时间间隔小于0.2s即可放在同一个堆栈中发送，不过两个值的最大间隔依然保持在1S。
+如果从一个输入文件中发送过多数据，Zabbixsender 将分批次发送这个值，每批次发送250个直到所有数据都发送完毕。比如：:</p>
+<div class="highlight-python"><div class="highlight"><pre># zabbix_sender -z 127.0.0.1 -i /tmp/traptest.txt
+Info from server: &quot;Processed 250 Failed 0 Total 250 Seconds spent 0.002668&quot;
+Info from server: &quot;Processed 50 Failed 0 Total 50 Seconds spent 0.000540&quot;
+sent: 300; skipped: 0; total: 300
+</pre></div>
+</div>
+<p>文件中的所有条目自上而下地被发送。
+如果目标item被triggers引用，则输入文件里的所有的时间戳都必须按照升序排列，否则计算出来的结果就不精确</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">如果指定的配置文件中出现无效的输入参数，ZabbixSender将会中止运行（不采用参数=值这种方法）</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">6 sender</a><ul>
+<li><a class="reference internal" href="#id2">概览</a></li>
+<li><a class="reference internal" href="#zabbixsender">运行ZabbixSender</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="java.html"
+                        title="previous chapter">5 Java gateway</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="get.html"
+                        title="next chapter">7 get</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/concepts/sender.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="get.html" title="7 get"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="java.html" title="5 Java gateway"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Zabbix_manual_2.4_zh_CN 0.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >2.Zabbix基本概念和专用术语</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, RoamerGU.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.3.
+    </div>
+  </body>
+</html>

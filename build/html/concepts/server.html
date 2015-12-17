@@ -1,0 +1,253 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>2 Server &mdash; Zabbix_manual_2.4_zh_CN 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Zabbix_manual_2.4_zh_CN 0.1 documentation" href="../index.html" />
+    <link rel="up" title="2.Zabbix基本概念和专用术语" href="index.html" />
+    <link rel="next" title="3 Agent" href="agent.html" />
+    <link rel="prev" title="1 Zabbix 术语" href="definitions.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="agent.html" title="3 Agent"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="definitions.html" title="1 Zabbix 术语"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Zabbix_manual_2.4_zh_CN 0.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">2.Zabbix基本概念和专用术语</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="server">
+<span id="id1"></span><h1>2 Server<a class="headerlink" href="#server" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id2">
+<h2>概览<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>ZabbixServer是整个Zabbix里面最重要的部分。
+Server 执行轮询与获取数据，计算Tiggers并向用户发送通知，接收ZabbixAgent与ZabbixProxy发送的系统健康性和完整性数据，Server本身也可以使用简单的检查服务来检查一些网络服务，比如WebServer和Mail服务。</p>
+<p>Server是所有配置信息、统计信息和业务数据的存储中心，当任何一个被监视的系统出现故障时zabbixServer都将触发警报提醒管理员，这一部分相对于存储来说是独立的。</p>
+<p>ZabbixServer的基本功能可以清晰地划分成三个部分，它们分别是：Zabbix Server，Web前端，和数据库存储器。</p>
+<p>所有的ZabbixServer配置信息保存在数据库，包括Server和Web前端接口。比如说，当你使用Web前段或者API创建了一个新的item，这个item将会被添加到数据库中的item列表中，然后，Zabbix会每一分钟从items列表中查询处于活动状态的items，并且放置到ZabbixServer的缓存中。这就是为什么任何从Web前段做出的更改最多需要两分钟时间才能在最新的数据状态中被显示出来。</p>
+</div>
+<div class="section" id="zabbix">
+<h2>Zabbix进程<a class="headerlink" href="#zabbix" title="Permalink to this headline">¶</a></h2>
+<p>Zabbix Srver作为一个守护进程被运行，使用如下指令来启动ZabbixServer:</p>
+<div class="highlight-python"><div class="highlight"><pre>Shell&gt; cd sbin
+Shell&gt;./zabbix_server
+</pre></div>
+</div>
+<p>你可以在在ZabbixServer命令中使用如下参数：</p>
+<div class="highlight-python"><div class="highlight"><pre>-c --config(文件名)         配置文件的绝对路径（默认是在/etc/zabbix/zabbix_server.conf）
+-R --runtime-control (可选) 执行管理功能
+-h --help                   显示此帮助信息
+-V --version                显示版本号
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Runtime control 功能不支持OpenBSD和NetBSD系统</p>
+</div>
+<p>命令参数举例：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">shell</span><span class="o">&gt;</span> <span class="n">zabbix_server</span> <span class="o">-</span><span class="n">c</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">zabbix_server</span><span class="o">.</span><span class="n">conf</span>
+<span class="n">shell</span><span class="o">&gt;</span> <span class="n">zabbix_server</span> <span class="o">--</span><span class="n">help</span>
+<span class="n">shell</span><span class="o">&gt;</span> <span class="n">zabbix_server</span> <span class="o">-</span><span class="n">V</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="runtime-control">
+<h2>Runtime control<a class="headerlink" href="#runtime-control" title="Permalink to this headline">¶</a></h2>
+<p>Runtime control 选项：</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="26%" />
+<col width="33%" />
+<col width="41%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">选项</th>
+<th class="head">描述</th>
+<th class="head">操作对象</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>config_cache_reload</td>
+<td>重新载入配置缓存，如果缓存正在加载，则忽略</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>log_level_increase[=&lt;<strong>target</strong>&gt;]</td>
+<td>增加日志级别，如无特殊指定，则影响所有进程</td>
+<td rowspan="3"><strong>PID</strong>-进程标识符，（范围从1到65535）
+<strong>Process Type</strong> -所有特别指定的进程类别，比如，poller.
+<strong>process type,N</strong> -进程类别与进程号，比如 poller,3</td>
+</tr>
+<tr class="row-even"><td>log_level_decrease[=&lt;<strong>target</strong>&gt;]</td>
+<td>降低日志级别，如无特殊指定,则影响所有进程</td>
+</tr>
+<tr class="row-odd"><td>log_level_decrease[=&lt;<strong>target</strong>&gt;]</td>
+<td>降低日志级别，如无特殊指定，则影响所有进程</td>
+</tr>
+</tbody>
+</table>
+<p>对于单个的Zabbix进程来说，允许更改日志级别的PID范围是从1到65535，如果系统上拥有很多PID，就可以使用&lt;process type,N&gt;目标参数用来调整单个进程的日志级别。</p>
+<p>举例说明使用runtime control 来重新载入配置缓存：</p>
+<div class="highlight-python"><div class="highlight"><pre>shell&gt; zabbix_server -c /usr/local/etc/zabbix_server.conf -R config_cache_reload
+</pre></div>
+</div>
+<p>举例说明使用 runtime control来改变日志级别：</p>
+<div class="highlight-python"><div class="highlight"><pre>Increase log level of all processes:
+shell&gt; zabbix_server -c /usr/local/etc/zabbix_server.conf -R log_level_increase
+
+Increase log level of second poller process:
+shell&gt; zabbix_server -c /usr/local/etc/zabbix_server.conf -R log_level_increase=poller,2
+
+Increase log level of process with PID 1234:
+shell&gt; zabbix_server -c /usr/local/etc/zabbix_server.conf -R log_level_increase=1234
+
+Decrease log level of all http poller processes:
+shell&gt; zabbix_server -c /usr/local/etc/zabbix_server.conf -R log_level_decrease=&quot;http poller&quot;
+</pre></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>进程属主<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>ZabbixServe被设计为不被root用户运行。任何一个非root用户都可以启动ZabbixServe，所以你可以以任意一个非root用户启动ZabbixServer而不会报错。</p>
+<p>如果你想尝试一下使用&#8221;root&#8221;用户运行一下ZabbixServer，该进程将被切换到内置的&#8221;zabbix&#8221;用户运行,此用户在你的系统上一定会存在,仅当你把ZabbixServer配置文件中的&#8217;AllowRoot&#8217;项修改为允许时，才能使用&#8217;root&#8217;身份运行ZabbixServer进程。</p>
+</div>
+<div class="section" id="id4">
+<h2>配置文件<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>参阅*配置文件章节*获得关于ZabbixServer配置文件的更多信息</p>
+</div>
+<div class="section" id="id5">
+<h2>启动脚本<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<p>这个脚本用来随操作系统的启动/关闭而自动启动/停止ZabbixServer的进程，位于 misc/init.d</p>
+</div>
+<div class="section" id="id6">
+<h2>支持的平台<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<p>考虑到安全性和关键任务的操作特性，UNIX是唯一可以持续提供必要的性能、容错性和恢复能力的操作系统，并且在运行Zabbix的表现上领先市场。
+Zabbix在以下平台上测试通过</p>
+<blockquote>
+<div><ul class="simple">
+<li>Linux</li>
+<li>Solaris</li>
+<li>AIX</li>
+<li>HP-UX</li>
+<li>Mac OS X</li>
+<li>FreeBSD</li>
+<li>OpenBSD</li>
+<li>NetBSD</li>
+<li>SCO Open Server</li>
+<li>Tru64/OSF1</li>
+</ul>
+</div></blockquote>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">在其他的类Unix系统上Zabbix也可以工作的很好</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">2 Server</a><ul>
+<li><a class="reference internal" href="#id2">概览</a></li>
+<li><a class="reference internal" href="#zabbix">Zabbix进程</a></li>
+<li><a class="reference internal" href="#runtime-control">Runtime control</a></li>
+<li><a class="reference internal" href="#id3">进程属主</a></li>
+<li><a class="reference internal" href="#id4">配置文件</a></li>
+<li><a class="reference internal" href="#id5">启动脚本</a></li>
+<li><a class="reference internal" href="#id6">支持的平台</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="definitions.html"
+                        title="previous chapter">1 Zabbix 术语</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="agent.html"
+                        title="next chapter">3 Agent</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/concepts/server.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="agent.html" title="3 Agent"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="definitions.html" title="1 Zabbix 术语"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Zabbix_manual_2.4_zh_CN 0.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >2.Zabbix基本概念和专用术语</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, RoamerGU.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.3.
+    </div>
+  </body>
+</html>

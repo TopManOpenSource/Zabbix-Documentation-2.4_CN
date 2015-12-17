@@ -1,0 +1,240 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>5 Java gateway &mdash; Zabbix_manual_2.4_zh_CN 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Zabbix_manual_2.4_zh_CN 0.1 documentation" href="../index.html" />
+    <link rel="up" title="2.Zabbix基本概念和专用术语" href="index.html" />
+    <link rel="next" title="6 sender" href="sender.html" />
+    <link rel="prev" title="4 Proxy" href="proxy.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="sender.html" title="6 sender"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="proxy.html" title="4 Proxy"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Zabbix_manual_2.4_zh_CN 0.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">2.Zabbix基本概念和专用术语</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="java-gateway">
+<span id="javagateway"></span><h1>5 Java gateway<a class="headerlink" href="#java-gateway" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2>概览<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>Zabbix 2.0 通过引入一个新的名为 &#8220;Zabbix Java gateway&#8221;的守护进程，增加了对JMX应用进行监视的原生支持。Zabbix Java gateway 是一个用Java写的后台守护进程，当Zabbix Server想要知道运行在host上的JMX应用的某个特定参数的值的时候，就会使用到Zabbix Java gateway,Zabbix Java gateway使用 <a class="reference external" href="http://www.oracle.com/technetwork/java/javase/tech/javamanagement-140525.html">JMX management API</a> 来请求远程应用的值。被监视的应用不需要额外安装任何附加软件，只需要从 <code class="docutils literal"><span class="pre">-Dcom.sun.management.jmxremote</span></code> 命令参数启动。</p>
+<p>Java gateway 只能以被动代理的方式接受由ZabbixServer或者ZabbixProxy发起的传入链接，与Zabbix Proxy不同的是，它可能会被ZabbixProxy调用（Proxy不能链接JMX应用），访问每个javagateway的 行为是直接被写在ZabbixServer或者ZabbixProxy的配置文件里面的，因此一个 Java gateway 可能会被其他任何ZabbixServer或者Proxy访问。如果一个host同时拥有 <strong>JMX agent</strong> 的items和其他类别的items，那么只有 <strong>JMX agent</strong> 的计数器的值会通过Java gateway传输。</p>
+<p>当有一个item的值通过Java gateway被更新，Zabbix Server或者Proxy将会连接这个Java gateway 并请求这个item的值，而这个Java gateway就会检索并传回这个值到Server或Proxy。由此可知，Java gateway不在本地缓存任何数据。</p>
+<p>Zabbix Server或者Proxy使用特定的进程链接Java gataway,使用选项 <strong>StartJavaPollers</strong> 控制。在Java gateway启动多个线程，由 <strong>START_POLLERS</strong> 控制。在Server端，在服务器端，如果需要在超时秒数以上的连接，它将被终止，但Java gateway能还在忙着从JMX计数器中检索值。为了解决这个问题，Zabbix 2.0.15、2.2.10和2.4.5在Java gateway引入了 <strong>time out</strong> 参数以允许对JMX的网络操作设置超时时间。</p>
+<p>为了获得更好的性能，Server或者Proxy会将很多请求汇集在一起，形成一个请求池，并尝试通过javagateway在一个连接中尽可能地对单个JMX应用一起发送这些请求。</p>
+<p>建议 <strong>StartJavaPollers</strong> 小于或者等于 <strong>START_POLLERS</strong> ，不然在某些情况下Java gateway没有可用的进程为传入链接服务。</p>
+<p>以下章节描述了如何获取并运行Zabbix Java gateway,如何配置ZabbixServer（或者Zabbix proxy）来使用Java proxy监视JMX应用。还有如何在Zabbix GUI中配置Zabbix items使他与JMX计数器保持一致</p>
+<div class="section" id="zabbix-java-gateway">
+<h3>5.1 获取Zabbix Java gateway<a class="headerlink" href="#zabbix-java-gateway" title="Permalink to this headline">¶</a></h3>
+<p>这里有两个办法来获取Java gateway,一种是从Zabbix网站上下载软件包，另一种是从源代码自行编译。</p>
+<div class="section" id="zabbix">
+<h4>5.11 从Zabbix网站上下载<a class="headerlink" href="#zabbix" title="Permalink to this headline">¶</a></h4>
+<p>Java gateway软件包（RHEL, Debian, Ubuntu）可以从此链接下载：<a class="reference external" href="http://www.zabbix.com/download.php">http://www.zabbix.com/download.php</a></p>
+</div>
+<div class="section" id="id2">
+<h4>5.12 从源代码编译<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h4>
+<p>为了从源代码编译 Java gateway，你必须首先运行 <code class="docutils literal"><span class="pre">./configure</span></code> 脚本并加上 <code class="docutils literal"><span class="pre">--enable-java</span></code> 参数，给脚本加上 <code class="docutils literal"><span class="pre">--prefix</span></code> 参数指定一个不同于默认的/usr/local安装路径是一个明智的选择。因为安装Java gateway将会创建一个完整的目录树而不仅仅运行一个单独的可执行文件。</p>
+<div class="highlight-python"><div class="highlight"><pre>$ ./configure --enable-java --prefix=$PREFIX
+</pre></div>
+</div>
+<p>为了编译并打包Java gateway到一个JAR文件，可以使用 <code class="docutils literal"><span class="pre">make</span></code> 命令，前提是你的环境变量中包含 <code class="docutils literal"><span class="pre">javac</span></code> 和 <code class="docutils literal"><span class="pre">jar</span></code> 可执行文件。</p>
+<div class="highlight-python"><div class="highlight"><pre>$make
+</pre></div>
+</div>
+<p>现在你的src/zabbix_java/bin目录下有了一个zabbix-java-gateway-$VERSION.jar文件。如果你愿意从src/zabbix_java运行Java gateway，请继续阅读如何配置和运行Java gateway，否则，请确定你有足够的权限运行 <code class="docutils literal"><span class="pre">make</span> <span class="pre">install</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre>$make install
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="id3">
+<h3>5.2  Java gateway 文件分发概览<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>不管你用什么手段得到了Java gateway 安装包，最后你都会得到一堆shell脚本、jar文件和位于$PREFIX/sbin/zabbix_java下的配置文件。这些文件的作用如下：</p>
+<div class="highlight-python"><div class="highlight"><pre>bin/zabbix-java-gateway-$VERSION.jar
+</pre></div>
+</div>
+<p>Java gateway自身的jar文件。</p>
+<div class="highlight-python"><div class="highlight"><pre>lib/logback-core-0.9.27.jar
+lib/logback-classic-0.9.27.jar
+lib/slf4j-api-1.6.1.jar
+lib/android-json-4.3_r3.1.jar
+</pre></div>
+</div>
+<p>Java gateway的依赖文件: <a class="reference external" href="http://logback.qos.ch/">Logback</a> , <a class="reference external" href="http://www.slf4j.org/">SLF4J</a>, 与 <a class="reference external" href="https://android.googlesource.com/platform/libcore/+/master/json/">Android JSON</a> 的库。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">lib</span><span class="o">/</span><span class="n">logback</span><span class="o">.</span><span class="n">xml</span>
+<span class="n">lib</span><span class="o">/</span><span class="n">logback</span><span class="o">-</span><span class="n">console</span><span class="o">.</span><span class="n">xml</span>
+</pre></div>
+</div>
+<p>Logback的配置文件</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">shutdown</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">startup</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+<p>启动或者关闭Javagateway的快捷脚本。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">settings</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+<p>上面的启动和关机脚本需要获取的配置文件。</p>
+</div>
+<div class="section" id="id4">
+<h3>5.3 配置和运行Java gateway<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>默认情况下 Java gateway 监听10052端口，如果你打算让它监听其他端口，请参阅 <span class="xref std std-ref">Zabbix Java gateway 配置文件</span></p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">10052端口不在 IANA端口列表:<a class="reference external" href="http://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.txt">http://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.txt</a> 中</p>
+</div>
+<p>一旦你确定了配置，你可以使用脚本来运行Java gateway:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ ./startup.sh
+</pre></div>
+</div>
+<p>同样地，如果你不再需要它，运行脚本来关闭：</p>
+<div class="highlight-python"><div class="highlight"><pre>$ ./shutdown.sh
+</pre></div>
+</div>
+<p>注意这样将断开与Server或者Proxy的链接。 Java gateway 是轻量级应用，不需要数据库。</p>
+</div>
+<div class="section" id="java-gatewayzabbix-serve">
+<h3>5.4 为使用Java gateway配置Zabbix Serve<a class="headerlink" href="#java-gatewayzabbix-serve" title="Permalink to this headline">¶</a></h3>
+<p>现在 Java gateway已经在运行了，你必须告诉ZabbixServer如何找到Java gateway,详细步骤已经在 <span class="xref std std-ref">服务配置文件</span> 说的很详细了。如果运行JMX应用的host是被Proxy监控的，请参阅 <span class="xref std std-ref">Proxy配置文件</span></p>
+<div class="highlight-python"><div class="highlight"><pre>JavaGateway=192.168.3.14
+JavaGatewayPort=10052
+</pre></div>
+</div>
+<p>默认情况下，server不会开启任何新的进程用于监视JMX。如果你要使用它，就必须指定轮询进程数，以相同的方式指定轮询数和trappers</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">StartJavaPollers</span><span class="o">=</span><span class="mi">5</span>
+</pre></div>
+</div>
+<p>配置完成后别忘了重新启动一下Server或者proxy。</p>
+<p>5.5 调试Java gateway</p>
+<p>如果Java gateway有任何错误或者或者在前端看到一个item的错误信息描述的不够详细，你可能希望 去查看日志文件</p>
+<p>默认情况下，日志文件以“info”级别 激活并写入到在 /tmp/zabbix_java.log文件中，有时这个级别产生的日志不够详细，需要调整到“debug”级别。修改 lib/logback.xml，定位到 &lt;root&gt; 标签，修改为 &#8220;debug&#8221;</p>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre>&lt;root level=&quot;debug&quot;&gt;
+&lt;appender-ref ref=&quot;FILE&quot; /&gt;
+&lt;/root&gt;
+</pre></div>
+</div>
+</div></blockquote>
+<p>注意这样操作将断开与Server 或Proxy的链接。但你修改logback.xml后无需重启Zabbix Java gateway，修改内容会自动生效。当你结束debug以后，可以将log级别改回到“info”.</p>
+<p>如果你想改变log文件的存储形态,比如保存在数据库里，请调整logback.xml来实现。详见 <span class="xref std std-ref">Logback 手册</span> 。</p>
+<p>把Java gateway启动为一个控制台应用程序而不是一个后台守护进程，可以更好地调试程序。在settings.sh中注释掉 PID_FILE 选项，就可以启动Java gateway为一个控制台守护进程，同时不使用lib/logback.xml。但是这样仅仅把日志打印到控制台，为了能记录日志，还是调整配置文件中的日志级别到&#8221;debug&#8221; 为好。</p>
+<p>最后，由于Java gateway使用 SLF4J 进行日志生成和保存，您可以通过在lib目录中放置一个适当的JAR文件来替换手册中文版与你选择的框架，详见 <a class="reference external" href="http://www.slf4j.org/manual.html">SLF4J 手册</a> 获取更多信息。</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">5 Java gateway</a><ul>
+<li><a class="reference internal" href="#id1">概览</a><ul>
+<li><a class="reference internal" href="#zabbix-java-gateway">5.1 获取Zabbix Java gateway</a><ul>
+<li><a class="reference internal" href="#zabbix">5.11 从Zabbix网站上下载</a></li>
+<li><a class="reference internal" href="#id2">5.12 从源代码编译</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id3">5.2  Java gateway 文件分发概览</a></li>
+<li><a class="reference internal" href="#id4">5.3 配置和运行Java gateway</a></li>
+<li><a class="reference internal" href="#java-gatewayzabbix-serve">5.4 为使用Java gateway配置Zabbix Serve</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="proxy.html"
+                        title="previous chapter">4 Proxy</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="sender.html"
+                        title="next chapter">6 sender</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/concepts/java.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="sender.html" title="6 sender"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="proxy.html" title="4 Proxy"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Zabbix_manual_2.4_zh_CN 0.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >2.Zabbix基本概念和专用术语</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, RoamerGU.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.3.
+    </div>
+  </body>
+</html>

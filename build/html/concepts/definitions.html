@@ -1,0 +1,230 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>1 Zabbix 术语 &mdash; Zabbix_manual_2.4_zh_CN 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Zabbix_manual_2.4_zh_CN 0.1 documentation" href="../index.html" />
+    <link rel="up" title="2.Zabbix基本概念和专用术语" href="index.html" />
+    <link rel="next" title="2 Server" href="server.html" />
+    <link rel="prev" title="2.Zabbix基本概念和专用术语" href="index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="server.html" title="2 Server"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="2.Zabbix基本概念和专用术语"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Zabbix_manual_2.4_zh_CN 0.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">2.Zabbix基本概念和专用术语</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="zabbix">
+<span id="id1"></span><h1>1 Zabbix 术语<a class="headerlink" href="#zabbix" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id2">
+<h2>概览<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>本章解释了Zabbix系统中常用术语的含义</p>
+</div>
+<div class="section" id="id3">
+<h2>术语<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="host">
+<h3>host<a class="headerlink" href="#host" title="Permalink to this headline">¶</a></h3>
+<p><em>-被监控的网络设备，用IP地址或者DNS域名标识</em></p>
+</div>
+<div class="section" id="host-group">
+<h3>host group<a class="headerlink" href="#host-group" title="Permalink to this headline">¶</a></h3>
+<p><em>-由host组成的逻辑意义上的组，可能包含了hosts和templates(模板)，但是一个host group内的hosts和templates没有任何关系，只有在为不同的用户分配对hosts的访问权限时才使用这个概念</em></p>
+</div>
+<div class="section" id="item">
+<h3>item<a class="headerlink" href="#item" title="Permalink to this headline">¶</a></h3>
+<p><em>-Zabbix从host接收的一段特定的数据</em></p>
+</div>
+<div class="section" id="trigger">
+<h3>trigger<a class="headerlink" href="#trigger" title="Permalink to this headline">¶</a></h3>
+<p><em>-一个逻辑表达式，它定义了一个故障阈值，并以此&#8221;评估&#8221;从item中收到的数据</em></p>
+<p>当收到的数据内容表明特定的某个值超过了规定的阈值，triggers将状态从“OK”切换到“故障”，当收到的数据内容表明特定的某个值低于阈值，则triggers将状态置为“OK”。</p>
+</div>
+<div class="section" id="event">
+<h3>event<a class="headerlink" href="#event" title="Permalink to this headline">¶</a></h3>
+<p><em>-一个值得关注的独立事件，比如某个trigger的状态改变或者自动发现/客户端被自动配置</em></p>
+</div>
+<div class="section" id="action">
+<h3>action<a class="headerlink" href="#action" title="Permalink to this headline">¶</a></h3>
+<p><em>-对一个event发生时的预定义的应对措施</em></p>
+<p>一个action包含一个操作（比如发送一个通知）和一个环境（比如操作进行的时候的操作环境）</p>
+</div>
+<div class="section" id="escalation">
+<h3>escalation<a class="headerlink" href="#escalation" title="Permalink to this headline">¶</a></h3>
+<p><em>内置于action中的操作方案，发送到远程服务器并执行的命令序列</em></p>
+</div>
+<div class="section" id="media">
+<h3>media<a class="headerlink" href="#media" title="Permalink to this headline">¶</a></h3>
+<p><em>-提供通知的一种手段，信息传递通道</em></p>
+</div>
+<div class="section" id="notification">
+<h3>notification<a class="headerlink" href="#notification" title="Permalink to this headline">¶</a></h3>
+<p><em>-一段通过选定的信息通道发送给用户的信息</em></p>
+</div>
+<div class="section" id="remote-command">
+<h3>remote command<a class="headerlink" href="#remote-command" title="Permalink to this headline">¶</a></h3>
+<p><em>-当远程host满足某些条件时自动执行的、预先编写好的代码</em></p>
+</div>
+<div class="section" id="temple">
+<h3>temple<a class="headerlink" href="#temple" title="Permalink to this headline">¶</a></h3>
+<p><em>-一个设定各种参数（items, triggers, graphs, screens, applications, low-level discovery rules, web scenarios）的集合，准备应用在一台或几台hosts上</em></p>
+</div>
+<div class="section" id="application">
+<h3>application<a class="headerlink" href="#application" title="Permalink to this headline">¶</a></h3>
+<p><em>-一组items</em></p>
+</div>
+<div class="section" id="web-scenario">
+<h3>web scenario<a class="headerlink" href="#web-scenario" title="Permalink to this headline">¶</a></h3>
+<p><em>-一个或几个用来检查网站可用性的HTTP请求</em></p>
+</div>
+<div class="section" id="frontend">
+<h3>frontend<a class="headerlink" href="#frontend" title="Permalink to this headline">¶</a></h3>
+<p><em>-Zabbix提供的网页界面</em></p>
+</div>
+<div class="section" id="zabbix-api">
+<h3>Zabbix API<a class="headerlink" href="#zabbix-api" title="Permalink to this headline">¶</a></h3>
+<p><em>-Zabbix API允许你使用JSON RPC协议来创建、升级和接收Zabbix的某些项目（比如hosts、items、图形和其他数据）或执行其他常见任务</em></p>
+</div>
+<div class="section" id="zabbix-server">
+<h3>Zabbix server<a class="headerlink" href="#zabbix-server" title="Permalink to this headline">¶</a></h3>
+<p><em>-Zabbix软件的处理核心，负责与代理、客户端的交互，计算tiggers,发送报告，存储数据</em></p>
+</div>
+<div class="section" id="zabbix-agent">
+<h3>Zabbix agent<a class="headerlink" href="#zabbix-agent" title="Permalink to this headline">¶</a></h3>
+<p><em>-部署在监控目标上的应用，主动监控所在hosts的环境和应用</em></p>
+</div>
+<div class="section" id="zabbix-proxy">
+<h3>Zabbix proxy<a class="headerlink" href="#zabbix-proxy" title="Permalink to this headline">¶</a></h3>
+<p><em>-一个代替ZabbixServer收发数据的进程，可以分担ZabbixServer的计算压力</em></p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">专有名词在不同人的文档中都有不同的翻译，为了保持语义一致，此处对专有名词没有做翻译而是直接保留了原文。所以读起来有点中英混杂。</p>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">1 Zabbix 术语</a><ul>
+<li><a class="reference internal" href="#id2">概览</a></li>
+<li><a class="reference internal" href="#id3">术语</a><ul>
+<li><a class="reference internal" href="#host">host</a></li>
+<li><a class="reference internal" href="#host-group">host group</a></li>
+<li><a class="reference internal" href="#item">item</a></li>
+<li><a class="reference internal" href="#trigger">trigger</a></li>
+<li><a class="reference internal" href="#event">event</a></li>
+<li><a class="reference internal" href="#action">action</a></li>
+<li><a class="reference internal" href="#escalation">escalation</a></li>
+<li><a class="reference internal" href="#media">media</a></li>
+<li><a class="reference internal" href="#notification">notification</a></li>
+<li><a class="reference internal" href="#remote-command">remote command</a></li>
+<li><a class="reference internal" href="#temple">temple</a></li>
+<li><a class="reference internal" href="#application">application</a></li>
+<li><a class="reference internal" href="#web-scenario">web scenario</a></li>
+<li><a class="reference internal" href="#frontend">frontend</a></li>
+<li><a class="reference internal" href="#zabbix-api">Zabbix API</a></li>
+<li><a class="reference internal" href="#zabbix-server">Zabbix server</a></li>
+<li><a class="reference internal" href="#zabbix-agent">Zabbix agent</a></li>
+<li><a class="reference internal" href="#zabbix-proxy">Zabbix proxy</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">2.Zabbix基本概念和专用术语</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="server.html"
+                        title="next chapter">2 Server</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/concepts/definitions.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="server.html" title="2 Server"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="2.Zabbix基本概念和专用术语"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Zabbix_manual_2.4_zh_CN 0.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >2.Zabbix基本概念和专用术语</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, RoamerGU.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.3.
+    </div>
+  </body>
+</html>

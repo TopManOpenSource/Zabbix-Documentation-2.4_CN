@@ -1,0 +1,202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>2.Zabbix基本概念和专用术语 &mdash; Zabbix_manual_2.4_zh_CN 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Zabbix_manual_2.4_zh_CN 0.1 documentation" href="../index.html" />
+    <link rel="next" title="1 Zabbix 术语" href="definitions.html" />
+    <link rel="prev" title="4.Zabbix概览" href="../introduction/overview.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="definitions.html" title="1 Zabbix 术语"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../introduction/overview.html" title="4.Zabbix概览"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Zabbix_manual_2.4_zh_CN 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="zabbix">
+<span id="id1"></span><h1>2.Zabbix基本概念和专用术语<a class="headerlink" href="#zabbix" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="definitions.html">1 Zabbix 术语</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="definitions.html#id2">概览</a></li>
+<li class="toctree-l2"><a class="reference internal" href="definitions.html#id3">术语</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="definitions.html#host">host</a></li>
+<li class="toctree-l3"><a class="reference internal" href="definitions.html#host-group">host group</a></li>
+<li class="toctree-l3"><a class="reference internal" href="definitions.html#item">item</a></li>
+<li class="toctree-l3"><a class="reference internal" href="definitions.html#trigger">trigger</a></li>
+<li class="toctree-l3"><a class="reference internal" href="definitions.html#event">event</a></li>
+<li class="toctree-l3"><a class="reference internal" href="definitions.html#action">action</a></li>
+<li class="toctree-l3"><a class="reference internal" href="definitions.html#escalation">escalation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="definitions.html#media">media</a></li>
+<li class="toctree-l3"><a class="reference internal" href="definitions.html#notification">notification</a></li>
+<li class="toctree-l3"><a class="reference internal" href="definitions.html#remote-command">remote command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="definitions.html#temple">temple</a></li>
+<li class="toctree-l3"><a class="reference internal" href="definitions.html#application">application</a></li>
+<li class="toctree-l3"><a class="reference internal" href="definitions.html#web-scenario">web scenario</a></li>
+<li class="toctree-l3"><a class="reference internal" href="definitions.html#frontend">frontend</a></li>
+<li class="toctree-l3"><a class="reference internal" href="definitions.html#zabbix-api">Zabbix API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="definitions.html#zabbix-server">Zabbix server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="definitions.html#zabbix-agent">Zabbix agent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="definitions.html#zabbix-proxy">Zabbix proxy</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="server.html">2 Server</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="server.html#id2">概览</a></li>
+<li class="toctree-l2"><a class="reference internal" href="server.html#zabbix">Zabbix进程</a></li>
+<li class="toctree-l2"><a class="reference internal" href="server.html#runtime-control">Runtime control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="server.html#id3">进程属主</a></li>
+<li class="toctree-l2"><a class="reference internal" href="server.html#id4">配置文件</a></li>
+<li class="toctree-l2"><a class="reference internal" href="server.html#id5">启动脚本</a></li>
+<li class="toctree-l2"><a class="reference internal" href="server.html#id6">支持的平台</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="agent.html">3 Agent</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="agent.html#id2">概览</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="agent.html#id3">被动检查和主动检查</a></li>
+<li class="toctree-l3"><a class="reference internal" href="agent.html#id4">支持平台</a></li>
+<li class="toctree-l3"><a class="reference internal" href="agent.html#id5">安装</a></li>
+<li class="toctree-l3"><a class="reference internal" href="agent.html#unixagent">Unix上的Agent进程（独立服务进程）</a></li>
+<li class="toctree-l3"><a class="reference internal" href="agent.html#runtime-control">runtime control</a></li>
+<li class="toctree-l3"><a class="reference internal" href="agent.html#id6">进程属主</a></li>
+<li class="toctree-l3"><a class="reference internal" href="agent.html#id7">配置文件</a></li>
+<li class="toctree-l3"><a class="reference internal" href="agent.html#windowsagent">在Windows操作系统上运行Agent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="agent.html#id8">配置文件</a></li>
+<li class="toctree-l3"><a class="reference internal" href="agent.html#id9">返回码</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="proxy.html">4 Proxy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="proxy.html#id2">概览</a></li>
+<li class="toctree-l2"><a class="reference internal" href="proxy.html#id3">Proxy进程</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="proxy.html#runtime-control">Runtime control</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="proxy.html#id4">进程属主</a></li>
+<li class="toctree-l2"><a class="reference internal" href="proxy.html#id5">配置文件</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="java.html">5 Java gateway</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="java.html#id1">概览</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="java.html#zabbix-java-gateway">5.1 获取Zabbix Java gateway</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="java.html#zabbix">5.11 从Zabbix网站上下载</a></li>
+<li class="toctree-l4"><a class="reference internal" href="java.html#id2">5.12 从源代码编译</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="java.html#id3">5.2  Java gateway 文件分发概览</a></li>
+<li class="toctree-l3"><a class="reference internal" href="java.html#id4">5.3 配置和运行Java gateway</a></li>
+<li class="toctree-l3"><a class="reference internal" href="java.html#java-gatewayzabbix-serve">5.4 为使用Java gateway配置Zabbix Serve</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sender.html">6 sender</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="sender.html#id2">概览</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sender.html#zabbixsender">运行ZabbixSender</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="get.html">7 get</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="get.html#id2">概览</a></li>
+<li class="toctree-l2"><a class="reference internal" href="get.html#zabbix-get">运行Zabbix get</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../introduction/overview.html"
+                        title="previous chapter">4.Zabbix概览</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="definitions.html"
+                        title="next chapter">1 Zabbix 术语</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/concepts/index.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="definitions.html" title="1 Zabbix 术语"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../introduction/overview.html" title="4.Zabbix概览"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Zabbix_manual_2.4_zh_CN 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, RoamerGU.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.3.
+    </div>
+  </body>
+</html>

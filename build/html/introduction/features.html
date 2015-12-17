@@ -1,0 +1,297 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>3.Zabbix特性 &mdash; Zabbix_manual_2.4_zh_CN 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Zabbix_manual_2.4_zh_CN 0.1 documentation" href="../index.html" />
+    <link rel="up" title="1.介绍" href="index.html" />
+    <link rel="next" title="4.Zabbix概览" href="overview.html" />
+    <link rel="prev" title="2关于Zabbix" href="about.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="overview.html" title="4.Zabbix概览"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="about.html" title="2关于Zabbix"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Zabbix_manual_2.4_zh_CN 0.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">1.介绍</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="id1">
+<h1>3.Zabbix特性<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id2">
+<h2>概览<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>Zabbix是一个高度集成的网络监视方案，在一个软件中提供了丰富的功能。</p>
+<div class="section" id="id3">
+<h3>数据采集<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li>可用性数据与性能数据采集</li>
+<li>支持SNMP（同时支持trapping与polling），IPMI，JMX.VMware</li>
+<li>可自定义数据采集</li>
+<li>可定期采集数据</li>
+<li>服务器代理服务器和客户端均可执行数据采集</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="id4">
+<h3>灵活的阈值定义<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li>你可以非常灵活地从后端引用相关数据来定义一个阈值，在Zabbix里，一个阈值被称为tigger。</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="id5">
+<h3>高度可配置的警报<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li>通知功能可以定制发送内容、接收人和通知发送媒介（比如E-mail）</li>
+<li>使用宏变量可以是有意义和有用的通知</li>
+<li>具有自动操作功能，包含远程执行命令的能力</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="id6">
+<h3>实时绘图<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li>监视items并使用内建的绘图功能实时生成图像</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="web">
+<h3>Web站点监视能力<a class="headerlink" href="#web" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li>Zabbix在Web页面上按照路径模拟点击以测试功能性和响应时间。</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="id7">
+<h3>丰富的可视化选项<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li>能够创建自定义图表，它可以将多个项目组合到单个图表中</li>
+<li>创建网络拓扑图</li>
+<li>自定义仪表板和侧边栏</li>
+<li>可视化报告</li>
+<li>资源高级概览（商业版提供）</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="id8">
+<h3>历史数据存储<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li>使用数据库存储数据</li>
+<li>配置历史回溯</li>
+<li>内建的数据整理功能</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="id9">
+<h3>易于配置<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li>所有的被监视设备都被称为host</li>
+<li>从数据库中选择被监视的host</li>
+<li>可以对需要监视的设备应用模板以简化配置过程</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="id10">
+<h3>使用模板<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li>在模板中批量配置监视项目</li>
+<li>模板之间可以互相嵌套</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="id11">
+<h3>网络发现<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li>自动发现网络设备</li>
+<li>客户端自动注册</li>
+<li>自动发现文件系统、网络接口和SNMP OIDS</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="id12">
+<h3>快速Web接口<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li>基于PHP驱动的的Web访问接口</li>
+<li>可从任意地址访问</li>
+<li>你可以配置属于你自己的前端</li>
+<li>具有日志审计功能</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="zabbix-api">
+<h3>Zabbix API<a class="headerlink" href="#zabbix-api" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li>ZabbixAPI为大规模部署提供了可编程接口，第三方也可以利用这些接口集成到Zabbix或者对Zabbix进行自定义</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="id13">
+<h3>权限管理系统<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li>安全的用户认证系统</li>
+<li>提供了权限分级，可以界定不同用户看到不同的视图</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="id14">
+<h3>全功能而且可扩展的客户端<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li>部署在被监视的机器上</li>
+<li>Linux和Windows平台均可运行</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="id15">
+<h3>二进制的守护进程<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li>使用C语言编写，高效且内存占用少</li>
+<li>便携</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="id16">
+<h3>为复杂环境而生<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li>使用Zabbix Proxy 可以轻松地实现远程监视</li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">3.Zabbix特性</a><ul>
+<li><a class="reference internal" href="#id2">概览</a><ul>
+<li><a class="reference internal" href="#id3">数据采集</a></li>
+<li><a class="reference internal" href="#id4">灵活的阈值定义</a></li>
+<li><a class="reference internal" href="#id5">高度可配置的警报</a></li>
+<li><a class="reference internal" href="#id6">实时绘图</a></li>
+<li><a class="reference internal" href="#web">Web站点监视能力</a></li>
+<li><a class="reference internal" href="#id7">丰富的可视化选项</a></li>
+<li><a class="reference internal" href="#id8">历史数据存储</a></li>
+<li><a class="reference internal" href="#id9">易于配置</a></li>
+<li><a class="reference internal" href="#id10">使用模板</a></li>
+<li><a class="reference internal" href="#id11">网络发现</a></li>
+<li><a class="reference internal" href="#id12">快速Web接口</a></li>
+<li><a class="reference internal" href="#zabbix-api">Zabbix API</a></li>
+<li><a class="reference internal" href="#id13">权限管理系统</a></li>
+<li><a class="reference internal" href="#id14">全功能而且可扩展的客户端</a></li>
+<li><a class="reference internal" href="#id15">二进制的守护进程</a></li>
+<li><a class="reference internal" href="#id16">为复杂环境而生</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="about.html"
+                        title="previous chapter">2关于Zabbix</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="overview.html"
+                        title="next chapter">4.Zabbix概览</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/introduction/features.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="overview.html" title="4.Zabbix概览"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="about.html" title="2关于Zabbix"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Zabbix_manual_2.4_zh_CN 0.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >1.介绍</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, RoamerGU.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.3.
+    </div>
+  </body>
+</html>
